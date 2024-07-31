@@ -2,30 +2,53 @@ package org.kiki.business.service;
 
 import org.kiki.business.dto.AuthorDTO;
 import org.kiki.business.dto.BookDTO;
+import org.kiki.database.dao.AuthorDAO;
+import org.kiki.database.dao.BookDAO;
 import org.kiki.database.repository.BookRepository;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import reactor.core.publisher.Flux;
 
 @Service
 public class BookService {
     @Autowired
     private BookRepository bookRepository;
 
-    public List<BookDTO> findAll() {
-        var result = new ArrayList<BookDTO>();
-        result.add(new BookDTO(
-                "От другата страна"
-                ,"Животът на патологичния лъжец Мартин се преобръща на сто и осемдесет градуса, когато всичко рязко му е отнето от родителите му. Той ще направи и невъзможното да си възвърне досегашния статут."
-                , new Date(2022, Calendar.APRIL,1)
-                , new AuthorDTO(
-                        "Димитър Калбуров"
-                        ,new Date()
-                        ,null)));
-        return result;
+    @Autowired
+    private ModelMapper mapper;
+
+    public Flux<BookDTO> findAll() {
+        createAuthorMapper();
+        createBookMapper();
+
+        return bookRepository.findAll().map(bookDAO -> mapper.map(bookDAO, BookDTO.class));
+    }
+
+    private void createAuthorMapper() {
+        TypeMap<AuthorDAO, AuthorDTO> authorDaoToDtoMap = mapper.getTypeMap(AuthorDAO.class, AuthorDTO.class);
+        if(authorDaoToDtoMap == null) {
+            authorDaoToDtoMap = mapper.createTypeMap(AuthorDAO.class, AuthorDTO.class);
+        }
+
+        authorDaoToDtoMap.setProvider(request -> {
+            AuthorDAO source = AuthorDAO.class.cast(request.getSource());
+            return new AuthorDTO(source.getId(), source.getName(),source.getBirthDate(), null);
+        });
+    }
+
+    private void createBookMapper() {
+        TypeMap<BookDAO, BookDTO> bookDaoToDtoMap = mapper.getTypeMap(BookDAO.class, BookDTO.class);
+        if(bookDaoToDtoMap == null) {
+            bookDaoToDtoMap = mapper.createTypeMap(BookDAO.class, BookDTO.class);
+        }
+
+        bookDaoToDtoMap.setProvider(request -> {
+            var source = BookDAO.class.cast(request.getSource());
+            var authorDTO = source.getAuthor() == null ? null : mapper.map(source.getAuthor(), AuthorDTO.class);
+            return new BookDTO(source.getId(), source.getTitle(),source.getDescription(),source.getReleaseDate(),
+                    authorDTO);
+        });
     }
 }

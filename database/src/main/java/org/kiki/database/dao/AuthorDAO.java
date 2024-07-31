@@ -1,6 +1,8 @@
 package org.kiki.database.dao;
 
-import jakarta.persistence.*;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,27 +11,25 @@ import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
 import java.time.LocalDate;
-
+import java.util.Date;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table("book")
-public class BookDAO {
+@Table("author")
+public class AuthorDAO {
     @Id
     @Column("id")
     private Long id;
 
-    @Column("title")
-    private String title;
-    @Column("description")
-    private String description;
+    @Column("name")
+    private String name;
 
-    @Column("release_date")
+    @Column("birth_date")
     @Temporal(TemporalType.DATE)
-    private LocalDate releaseDate;
+    private LocalDate birthDate;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "author_id")
-    AuthorDAO author;
+    @OneToMany(mappedBy = "author")
+    private List<BookDAO> books;
 }

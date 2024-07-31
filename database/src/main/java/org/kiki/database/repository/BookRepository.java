@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Mono;
 
 @Repository
-public interface BookRepository extends ReactiveCrudRepository<Long, BookDAO> {
+public interface BookRepository extends ReactiveCrudRepository<BookDAO, Long> {
     @Query("{ 'title': ?0}")
     Mono<BookDAO> findBookByTitle(String title);
 }

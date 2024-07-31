@@ -5,8 +5,7 @@ import org.kiki.business.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import reactor.core.publisher.Flux;
 
 @RestController
 public class BookController {
@@ -17,7 +16,7 @@ public class BookController {
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(method = RequestMethod.GET, value = "/books")
-    public List<BookDTO> listBooks() {
+    public Flux<BookDTO> listBooks() {
         return bookService.findAll();
     }
 }

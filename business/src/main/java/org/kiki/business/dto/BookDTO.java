@@ -1,11 +1,12 @@
 package org.kiki.business.dto;
 
-import java.util.Date;
+import java.time.LocalDate;
 
-public record BookDTO (
-     String title,
-     String description,
-     Date releaseData,
-     AuthorDTO author
-){
+public record BookDTO(
+        Long id,
+        String title,
+        String description,
+        LocalDate releaseData,
+        AuthorDTO author
+) {
 }

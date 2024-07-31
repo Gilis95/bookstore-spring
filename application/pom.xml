@@ -26,6 +26,9 @@
             <artifactId>http</artifactId>
             <version>${parent.version}</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.modelmapper</groupId>
+            <artifactId>modelmapper</artifactId>
+        </dependency>
     </dependencies>
 </project>

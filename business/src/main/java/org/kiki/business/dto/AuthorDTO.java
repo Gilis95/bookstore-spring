@@ -1,7 +1,7 @@
 package org.kiki.business.dto;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
-public record AuthorDTO(String name, Date birthDate, List<BookDTO> books) {
+public record AuthorDTO(Long id, String name, LocalDate birthDate, List<BookDTO> books) {
 }
