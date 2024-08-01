@@ -20,35 +20,6 @@ public class BookService {
     private ModelMapper mapper;
 
     public Flux<BookDTO> findAll() {
-        createAuthorMapper();
-        createBookMapper();
-
         return bookRepository.findAll().map(bookDAO -> mapper.map(bookDAO, BookDTO.class));
-    }
-
-    private void createAuthorMapper() {
-        TypeMap<AuthorDAO, AuthorDTO> authorDaoToDtoMap = mapper.getTypeMap(AuthorDAO.class, AuthorDTO.class);
-        if(authorDaoToDtoMap == null) {
-            authorDaoToDtoMap = mapper.createTypeMap(AuthorDAO.class, AuthorDTO.class);
-        }
-
-        authorDaoToDtoMap.setProvider(request -> {
-            AuthorDAO source = AuthorDAO.class.cast(request.getSource());
-            return new AuthorDTO(source.getId(), source.getName(),source.getBirthDate(), null);
-        });
-    }
-
-    private void createBookMapper() {
-        TypeMap<BookDAO, BookDTO> bookDaoToDtoMap = mapper.getTypeMap(BookDAO.class, BookDTO.class);
-        if(bookDaoToDtoMap == null) {
-            bookDaoToDtoMap = mapper.createTypeMap(BookDAO.class, BookDTO.class);
-        }
-
-        bookDaoToDtoMap.setProvider(request -> {
-            var source = BookDAO.class.cast(request.getSource());
-            var authorDTO = source.getAuthor() == null ? null : mapper.map(source.getAuthor(), AuthorDTO.class);
-            return new BookDTO(source.getId(), source.getTitle(),source.getDescription(),source.getReleaseDate(),
-                    authorDTO);
-        });
     }
 }

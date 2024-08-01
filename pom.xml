@@ -25,6 +25,7 @@
         <lombok.version>1.18.34</lombok.version>
         <modelmapper.version>3.2.1</modelmapper.version>
         <r2dbc-mysql.version>0.8.2.RELEASE</r2dbc-mysql.version>
+        <modelmapper-module-record.version>1.0.0</modelmapper-module-record.version>
     </properties>
 
     <modules>
