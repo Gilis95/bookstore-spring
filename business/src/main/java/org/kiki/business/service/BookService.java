@@ -9,8 +9,6 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.util.Objects;
-
 @Service
 public class BookService {
     @Autowired
@@ -27,5 +25,9 @@ public class BookService {
     {
         var updateDao = mapper.map(bookDTO, BookDAO.class);
         return bookRepository.update(id, updateDao);
+    }
+
+    public Mono<Void> deleteEntry(long id) {
+        return bookRepository.deleteById(id);
     }
 }

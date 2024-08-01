@@ -38,6 +38,7 @@ public class BookController {
 
     @ResponseStatus(value = HttpStatus.OK, reason = "Successfully deleted book entry")
     @RequestMapping(method = RequestMethod.DELETE, value = "/{id}")
-    public void deleteBook(@PathVariable long id) {
+    public Mono<Void> deleteBook(@PathVariable long id) {
+        return bookService.deleteEntry(id);
     }
 }
