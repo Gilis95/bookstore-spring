@@ -32,4 +32,11 @@ public class AuthorDAO {
 
     @OneToMany(mappedBy = "author")
     private List<BookDAO> books;
+
+    public void copyFrom(AuthorDAO other)
+    {
+        name = other.name;
+        birthDate = other.birthDate;
+        books = other.books;
+    }
 }

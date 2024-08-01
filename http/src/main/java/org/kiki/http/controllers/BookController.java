@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping(value = "/books")
@@ -32,8 +32,8 @@ public class BookController {
 
     @ResponseStatus(value = HttpStatus.OK, reason = "Successfully update book entry")
     @RequestMapping(method = RequestMethod.PATCH, value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void updateBook(@PathVariable long id, @RequestBody BookDTO dto) {
-
+    public Mono<Integer> updateBook(@PathVariable long id, @RequestBody BookDTO dto) {
+        return bookService.updateEntry(id, dto);
     }
 
     @ResponseStatus(value = HttpStatus.OK, reason = "Successfully deleted book entry")

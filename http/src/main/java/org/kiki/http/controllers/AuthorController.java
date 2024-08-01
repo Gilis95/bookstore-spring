@@ -22,7 +22,7 @@ public class AuthorController {
     }
 
     @ResponseStatus(value = HttpStatus.OK, reason = "Successfully created author entry")
-    @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public void createAuthor(@RequestParam AuthorDTO dto) {
     }
 
