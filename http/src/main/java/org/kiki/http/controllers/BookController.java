@@ -2,6 +2,7 @@ package org.kiki.http.controllers;
 
 import org.kiki.business.dto.BookDTO;
 import org.kiki.business.service.BookService;
+import org.kiki.database.dao.BookDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -25,10 +26,9 @@ public class BookController {
 
     @ResponseStatus(value = HttpStatus.OK, reason = "Successfully created book entry")
     @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void createBook(@RequestBody BookDTO dto) {
-        System.out.println(dto.toString());
+    public Mono<BookDAO> createBook(@RequestBody BookDTO dto) {
+        return bookService.createEntry(dto);
     }
-
 
     @ResponseStatus(value = HttpStatus.OK, reason = "Successfully update book entry")
     @RequestMapping(method = RequestMethod.PATCH, value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)

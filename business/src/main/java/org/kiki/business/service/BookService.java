@@ -21,6 +21,12 @@ public class BookService {
         return bookRepository.findAll().map(bookDAO -> mapper.map(bookDAO, BookDTO.class));
     }
 
+    public Mono<BookDAO> createEntry(BookDTO bookDTO)
+    {
+        var updateDao = mapper.map(bookDTO, BookDAO.class);
+        return bookRepository.save(updateDao);
+    }
+
     public Mono<Integer> updateEntry(long id, BookDTO bookDTO)
     {
         var updateDao = mapper.map(bookDTO, BookDAO.class);
