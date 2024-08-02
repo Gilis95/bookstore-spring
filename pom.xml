@@ -26,6 +26,7 @@
         <modelmapper.version>3.2.1</modelmapper.version>
         <r2dbc-mysql.version>0.8.2.RELEASE</r2dbc-mysql.version>
         <modelmapper-module-record.version>1.0.0</modelmapper-module-record.version>
+        <bcprov.version>1.78.1</bcprov.version>
     </properties>
 
     <modules>
@@ -85,6 +86,11 @@
                 <groupId>dev.miku</groupId>
                 <artifactId>r2dbc-mysql</artifactId>
                 <version>${r2dbc-mysql.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bouncycastle</groupId>
+                <artifactId>bcprov-jdk18on</artifactId>
+                <version>${bcprov.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
